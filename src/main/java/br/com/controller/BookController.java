@@ -14,7 +14,7 @@ import br.com.model.Book;
 import br.com.repository.BookRepository;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("book")
 public class BookController {
 
 	@Autowired
@@ -35,5 +35,18 @@ public class BookController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{bookId}")
 	public Book getBookDetails(@PathVariable("bookId") String bookId) {
 		return bookRepository.findOne(bookId);
+	}
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/{bookId}")
+	public Map<String, Object> editBook(@PathVariable("bookId") String bookId,
+			@RequestBody Map<String, Object> bookMap) {
+		Book book = new Book(bookMap.get("name").toString(), bookMap.get("isbn").toString(),
+				bookMap.get("author").toString(), Integer.parseInt(bookMap.get("pages").toString()));
+		book.setId(bookId);
+
+		Map<String, Object> response = new LinkedHashMap<String, Object>();
+		response.put("message", "Book Updated successfully");
+		response.put("book", bookRepository.save(book));
+		return response;
 	}
 }
