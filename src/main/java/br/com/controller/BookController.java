@@ -15,7 +15,7 @@ import br.com.model.Book;
 import br.com.repository.BookRepository;
 
 @RestController
-@RequestMapping("book")
+@RequestMapping("/book")
 public class BookController {
 
 	@Autowired
